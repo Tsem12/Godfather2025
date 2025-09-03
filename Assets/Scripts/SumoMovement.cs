@@ -97,7 +97,7 @@ public class SumoMovement : MonoBehaviour
     private void ComputeOrientX(float direction)
     {
         OrientX = direction;
-        _gfx.localScale = new Vector3(_gfx.localScale.x * -1, _gfx.localScale.y, _gfx.localScale.z);
+        _gfx.localScale = new Vector3(_gfx.localScale.x * OrientX, _gfx.localScale.y, _gfx.localScale.z);
     }
 
     private void ComputeDash(Vector2 direction)
@@ -109,9 +109,9 @@ public class SumoMovement : MonoBehaviour
         {
             _currentMovementState = MovementState.ChargingDash;
             _currentDashChargeDate = Time.time;
-            _currentDashDirection = direction.x;
             Debug.Log($"Start Dash");
         }
+        _currentDashDirection = direction.x;
     }
     
     private void Dash(Vector2 direction)
@@ -119,11 +119,10 @@ public class SumoMovement : MonoBehaviour
         if(_currentDashChargeDate <= 0)
             return;
         
-        ComputeOrientX(Mathf.Sign(direction.x));
+        ComputeOrientX(Mathf.Sign(_currentDashDirection));
         _rb.linearVelocity = Direction * OrientX * 
                              Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate(Time.time - _currentDashChargeDate / _dashMaxDurationCharge));
         
-        Debug.Log($"Start {_rb.linearVelocity}");
     }
 
 
@@ -147,6 +146,11 @@ public class SumoMovement : MonoBehaviour
             return;
         
         GUILayout.Label($"Is on ground: {IsOnGround}");
+        GUILayout.Label($"State: {_currentMovementState}");
+        GUILayout.Label($"Charge state: {_currentMovementState}");
+        GUILayout.Label($"Charge duration: {_dashMaxDurationCharge - _currentDashChargeDate}");
+        GUILayout.Label($"Charge Force: {Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate(Time.time - _currentDashChargeDate / _dashMaxDurationCharge))}");
+        GUILayout.Label($"Ground inclinaison: {GroundInclination}");
     }
     #endif
     
