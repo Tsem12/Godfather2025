@@ -3,12 +3,29 @@ using UnityEngine;
 
 public class SumoMovement : MonoBehaviour
 {
+    public enum MovementState
+    {
+        ChargingDash,
+        Dashing,
+        Idle
+    }
+    
+    [SerializeField] private InputHandeler _inputHandler;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Transform _gfx;
     [SerializeField] private Transform _rayOrigin;
     [SerializeField] private float _rayGroundDetectionLenght;
     [SerializeField] private LayerMask _groundLayer;
 
+    [Header("Dash metrics")] 
+    [SerializeField] private float _dashMaxDurationCharge;
+    [SerializeField] private Vector2 _minMaxDashVelocity;
+    [SerializeField] private AnimationCurve _dashVelocityCurve;
+
+    private float _currentDashChargeDate;
+    private float _currentDashDirection;
+    private MovementState _currentMovementState;
+    
     [Header("debug")] 
     private const float _colliderDetection = 2;
     
@@ -16,8 +33,8 @@ public class SumoMovement : MonoBehaviour
     
     private Vector2 _groundNormal;
 
-    private float OrientX;
-    private Vector3 _contactPoint;
+    private float OrientX = 1;
+    private Vector2 _contactPoint;
     private Quaternion _targetRotation;
     
     
@@ -25,6 +42,32 @@ public class SumoMovement : MonoBehaviour
     public bool IsOnGround { get; private set; }
     
     public float GroundInclination => (int)Vector2.Angle(Quaternion.AngleAxis(-90, Vector3.forward) * _groundNormal, Vector2.right);
+
+    private void Awake()
+    {
+        _inputHandler.OnMovementInputOccured += ComputeDash;
+        _inputHandler.OnMovementInputRelease += Dash;
+
+        _currentMovementState = MovementState.Idle;
+    }
+    
+    private void OnDestroy()
+    {
+        _inputHandler.OnMovementInputOccured -= ComputeDash;
+        _inputHandler.OnMovementInputRelease -= Dash;
+    }
+
+    private void Update()
+    {
+        ComputeGroundInformations();
+        ComputeOrientation(Time.deltaTime);
+
+        if (!IsOnGround)
+        {
+            _rb.linearVelocity -= -Physics2D.gravity * Time.deltaTime;
+        }
+    }
+    
     
     private void ComputeGroundInformations()
     {
@@ -51,28 +94,43 @@ public class SumoMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void ComputeOrientX(float direction)
     {
-        ComputeGroundInformations();
-        ComputeOrientation(Time.deltaTime);
-        Vector3 Gravity = Physics2D.gravity * Time.deltaTime;
-        if (IsOnGround)
-        {
-            _rb.linearVelocity = Direction * _speed + Gravity;
-        }
-        else
-        {
-            _rb.linearVelocity += (Vector2)Gravity;
-        }
-        
-        //TEMP 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            OrientX *= -1;
-            transform.localScale = new Vector3(OrientX,1,1);
-        }
+        OrientX = direction;
+        _gfx.localScale = new Vector3(_gfx.localScale.x * -1, _gfx.localScale.y, _gfx.localScale.z);
     }
 
+    private void ComputeDash(Vector2 direction)
+    {
+        if (_currentMovementState == MovementState.Dashing)
+            return;
+        
+        if (_currentMovementState == MovementState.Idle)
+        {
+            _currentMovementState = MovementState.ChargingDash;
+            _currentDashChargeDate = Time.time;
+            _currentDashDirection = direction.x;
+            Debug.Log($"Start Dash");
+        }
+    }
+    
+    private void Dash(Vector2 direction)
+    {
+        if(_currentDashChargeDate <= 0)
+            return;
+        
+        ComputeOrientX(Mathf.Sign(direction.x));
+        _rb.linearVelocity = Direction * OrientX * 
+                             Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate(Time.time - _currentDashChargeDate / _dashMaxDurationCharge));
+        
+        Debug.Log($"Start {_rb.linearVelocity}");
+    }
+
+
+    
+    #if UNITY_EDITOR
+    [Header("Debug")]
+    [SerializeField] private bool _guiDebug;
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -83,12 +141,6 @@ public class SumoMovement : MonoBehaviour
         Gizmos.DrawLine(_rayOrigin.position, _rayOrigin.position + Direction * _rayGroundDetectionLenght);
     }
     
-    #if UNITY_EDITOR
-    [Header("Debug")]
-    [SerializeField] private bool _guiDebug;
-
-    private float _velocity;
-    
     private void OnGUI()
     {
         if(!_guiDebug)
@@ -96,6 +148,6 @@ public class SumoMovement : MonoBehaviour
         
         GUILayout.Label($"Is on ground: {IsOnGround}");
     }
-#endif
+    #endif
     
 }
