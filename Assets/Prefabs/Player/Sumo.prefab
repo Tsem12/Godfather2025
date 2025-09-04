@@ -156,42 +156,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _dashMaxDurationCharge: 2
-  _dashCoolDown: 0.5
-  _minMaxDashVelocity: {x: 0, y: 10}
-  _dashVelocityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.939623
-      outSlope: 3.939623
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.08069595
-    - serializedVersion: 3
-      time: 0.35609752
-      value: 0.7291044
-      inSlope: 1.0272686
-      outSlope: 1.0272686
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _metricsData: {fileID: 11400000, guid: 0202ce5a9532600429c139a12735c923, type: 2}
   _guiDebug: 1
 --- !u!114 &9194066205004748061
 MonoBehaviour:
@@ -206,7 +171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 6335803074427085467}
-  _playerID: 0
 --- !u!50 &6780335902474035598
 Rigidbody2D:
   serializedVersion: 5
@@ -315,10 +279,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2b5528a5-ac7c-427d-a866-a62e693614ea
-    m_ActionName: 'Player2/Move[/XInputControllerWindows/leftStick,/Keyboard/i,/Keyboard/upArrow,/Keyboard/k,/Keyboard/downArrow,/Keyboard/j,/Keyboard/leftArrow,/Keyboard/l,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1

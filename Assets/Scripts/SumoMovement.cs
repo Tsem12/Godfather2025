@@ -17,11 +17,8 @@ public class SumoMovement : MonoBehaviour
     [SerializeField] private float _rayGroundDetectionLenght;
     [SerializeField] private LayerMask _groundLayer;
 
-    [Header("Dash metrics")] 
-    [SerializeField] private float _dashMaxDurationCharge;
-    [SerializeField] private float _dashCoolDown;
-    [SerializeField] private Vector2 _minMaxDashVelocity;
-    [SerializeField] private AnimationCurve _dashVelocityCurve;
+    [Header("Dash metrics")] [SerializeField]
+    private PlayerMovementMetricsData _metricsData;
 
     private float _currentDashCoolDown;
     private float _currentDashChargeDate;
@@ -139,12 +136,12 @@ public class SumoMovement : MonoBehaviour
 
         ComputeOrientX(Mathf.Sign(_currentDashDirection));
         _rb.linearVelocity = Direction * OrientX *
-                             Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y,
-                                 _dashVelocityCurve.Evaluate(
-                                     (Time.time - _currentDashChargeDate) / _dashMaxDurationCharge));
+                             Mathf.Lerp(_metricsData.MinMaxDashVelocity.x, _metricsData.MinMaxDashVelocity.y,
+                                 _metricsData.DashVelocityCurve.Evaluate(
+                                     (Time.time - _currentDashChargeDate) / _metricsData.DashMaxDurationCharge));
 
         _currentMovementState = MovementState.Dashing;
-        _currentDashCoolDown = _dashCoolDown;
+        _currentDashCoolDown = _metricsData.DashCoolDown;
         _currentDashChargeDate = -1;
     }
 
@@ -170,13 +167,13 @@ public class SumoMovement : MonoBehaviour
         GUILayout.Label($"Is on ground: {IsOnGround}");
         GUILayout.Label($"State: {_currentMovementState}");
         GUILayout.Label($"Charge state: {_currentMovementState}");
-        GUILayout.Label($"Charge duration: {_dashMaxDurationCharge - _currentDashChargeDate}");
+        GUILayout.Label($"Charge duration: {_metricsData.DashMaxDurationCharge - _currentDashChargeDate}");
         GUILayout.Label($"Can dash: {CanUseDash}");
 
         if (_currentMovementState == MovementState.ChargingDash)
         {
             GUILayout.Label(
-                $"Charge Force: {Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate((Time.time - _currentDashChargeDate) / _dashMaxDurationCharge))}");
+                $"Charge Force: {Mathf.Lerp(_metricsData.MinMaxDashVelocity.x, _metricsData.MinMaxDashVelocity.y, _metricsData.DashVelocityCurve.Evaluate((Time.time - _currentDashChargeDate) / _metricsData.DashMaxDurationCharge))}");
         }
         GUILayout.Label($"Ground inclinaison: {GroundInclination}");
     }
