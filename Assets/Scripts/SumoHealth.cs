@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class SumoHealth : MonoBehaviour
@@ -26,9 +27,23 @@ public class SumoHealth : MonoBehaviour
         }
     }
 
+    // O I I A I O I I A I O I I A I *spinning cat*
+
+    public int CurrentSunscreen
+    {
+        get { return _currentSunscreen; }
+        set
+        {
+            _currentSunscreen = value;
+        }
+    }
+
     void Start()
     {
         sumoHealthRef = GetComponent<SumoHealth>();
+
+        _currentSunscreen = _maxSunscreen;
+        _currentHealth = _maxHealth;
     }
 
     void Update()
@@ -52,6 +67,11 @@ public class SumoHealth : MonoBehaviour
             if (targetHealth != null)
             {
                 targetHealth.CurrentHealth -= 1;
+
+                if (targetHealth.CurrentHealth <= 0)
+                {
+                    Die();
+                }
 
             } else {
 
