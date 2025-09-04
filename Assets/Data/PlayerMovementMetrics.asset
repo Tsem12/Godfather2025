@@ -39,3 +39,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  <BumpCooldown>k__BackingField: 0.5
+  <JumpForce>k__BackingField: 10
+  <JumpCoolDown>k__BackingField: 5

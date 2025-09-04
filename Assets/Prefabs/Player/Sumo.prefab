@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5271391924074357853}
   - component: {fileID: 2222619613330700280}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Physics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8522680436565673713}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,6 +99,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5689277366910608864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6516305359838130782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3845266558022070564}
+  - component: {fileID: 3756158413593373918}
+  m_Layer: 0
+  m_Name: Hitbox
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3845266558022070564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516305359838130782}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4708129889075535332}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &3756158413593373918
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516305359838130782}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 1.11}
+  m_Size: {x: 1.5, y: 2.34}
+  m_Direction: 0
 --- !u!1 &7670111165366017556
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,11 +177,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4708129889075535332}
+  - component: {fileID: 114938884219652162}
   - component: {fileID: 2090450646986911427}
+  - component: {fileID: 3566885387408539545}
   - component: {fileID: 9194066205004748061}
   - component: {fileID: 6780335902474035598}
   - component: {fileID: 6335803074427085467}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sumo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,8 +205,23 @@ Transform:
   m_Children:
   - {fileID: 5689277366910608864}
   - {fileID: 5271391924074357853}
+  - {fileID: 3845266558022070564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114938884219652162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7670111165366017556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2983a97dd43de4d46b4da6b23703b2b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Movement>k__BackingField: {fileID: 2090450646986911427}
+  <Health>k__BackingField: {fileID: 3566885387408539545}
 --- !u!114 &2090450646986911427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +244,22 @@ MonoBehaviour:
     m_Bits: 64
   _metricsData: {fileID: 11400000, guid: 0202ce5a9532600429c139a12735c923, type: 2}
   _guiDebug: 1
+--- !u!114 &3566885387408539545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7670111165366017556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fee429168c8c3c478c6a26c1a2380b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 0
+  _currentHealth: 0
+  _maxSunscreen: 0
+  _currentSunscreen: 0
 --- !u!114 &9194066205004748061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +381,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9194066205004748061}
+        m_TargetAssemblyTypeName: InputHandeler, Assembly-CSharp
+        m_MethodName: RetreiveJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cf1afb6d-6b37-4aab-9a15-281adf8af9b9
+    m_ActionName: 'Player1/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -294,7 +412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5689277366910608864}
   - component: {fileID: 2367503965476414622}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
