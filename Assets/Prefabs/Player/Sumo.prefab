@@ -109,6 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4708129889075535332}
   - component: {fileID: 2090450646986911427}
+  - component: {fileID: 9194066205004748061}
   - component: {fileID: 6780335902474035598}
   - component: {fileID: 6335803074427085467}
   m_Layer: 0
@@ -147,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 982edadfd6120e8489b76672f658a5ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputHandler: {fileID: 9194066205004748061}
   _rb: {fileID: 6780335902474035598}
   _gfx: {fileID: 5689277366910608864}
   _rayOrigin: {fileID: 8522680436565673713}
@@ -154,8 +156,57 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _speed: 3
+  _dashMaxDurationCharge: 2
+  _dashCoolDown: 0.5
+  _minMaxDashVelocity: {x: 0, y: 10}
+  _dashVelocityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.939623
+      outSlope: 3.939623
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.08069595
+    - serializedVersion: 3
+      time: 0.35609752
+      value: 0.7291044
+      inSlope: 1.0272686
+      outSlope: 1.0272686
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _guiDebug: 1
+--- !u!114 &9194066205004748061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7670111165366017556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0aed4c1c6360324899568cdf56e5a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 6335803074427085467}
+  _playerID: 0
 --- !u!50 &6780335902474035598
 Rigidbody2D:
   serializedVersion: 5
@@ -181,7 +232,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &6335803074427085467
 MonoBehaviour:
@@ -209,7 +260,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9194066205004748061}
+        m_TargetAssemblyTypeName: InputHandeler, Assembly-CSharp
+        m_MethodName: RetreiveMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -252,9 +315,13 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2b5528a5-ac7c-427d-a866-a62e693614ea
+    m_ActionName: 'Player2/Move[/XInputControllerWindows/leftStick,/Keyboard/i,/Keyboard/upArrow,/Keyboard/k,/Keyboard/downArrow,/Keyboard/j,/Keyboard/leftArrow,/Keyboard/l,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Player1
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &8697415675926160752

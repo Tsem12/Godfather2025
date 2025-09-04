@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 
 public class InputHandeler : MonoBehaviour
 {
+    [SerializeField] private PlayerInput _playerInput;
     public event Action<Vector2> OnMovementInputOccured; 
-    public event Action<Vector2> OnMovementInputRelease; 
-    
+    public event Action<Vector2> OnMovementInputRelease;
+
     public void RetreiveMovement(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)

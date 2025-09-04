@@ -9,7 +9,7 @@ public class SumoMovement : MonoBehaviour
         Dashing,
         Idle
     }
-    
+
     [SerializeField] private InputHandeler _inputHandler;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Transform _gfx;
@@ -19,29 +19,30 @@ public class SumoMovement : MonoBehaviour
 
     [Header("Dash metrics")] 
     [SerializeField] private float _dashMaxDurationCharge;
+    [SerializeField] private float _dashCoolDown;
     [SerializeField] private Vector2 _minMaxDashVelocity;
     [SerializeField] private AnimationCurve _dashVelocityCurve;
 
+    private float _currentDashCoolDown;
     private float _currentDashChargeDate;
     private float _currentDashDirection;
     private MovementState _currentMovementState;
-    
-    [Header("debug")] 
-    private const float _colliderDetection = 2;
-    
-    [SerializeField] private float _speed;
-    
-    private Vector2 _groundNormal;
 
+    [Header("debug")] private const float _colliderDetection = 2;
+
+
+    private Vector2 _groundNormal;
     private float OrientX = 1;
     private Vector2 _contactPoint;
     private Quaternion _targetRotation;
-    
-    
+
+
     public Vector3 Direction => Quaternion.AngleAxis(90 * -transform.localScale.x, Vector3.forward) * _groundNormal;
     public bool IsOnGround { get; private set; }
-    
-    public float GroundInclination => (int)Vector2.Angle(Quaternion.AngleAxis(-90, Vector3.forward) * _groundNormal, Vector2.right);
+    public bool CanUseDash => _currentDashCoolDown <= 0;
+
+    public float GroundInclination =>
+        (int)Vector2.Angle(Quaternion.AngleAxis(-90, Vector3.forward) * _groundNormal, Vector2.right);
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class SumoMovement : MonoBehaviour
 
         _currentMovementState = MovementState.Idle;
     }
-    
+
     private void OnDestroy()
     {
         _inputHandler.OnMovementInputOccured -= ComputeDash;
@@ -61,18 +62,21 @@ public class SumoMovement : MonoBehaviour
     {
         ComputeGroundInformations();
         ComputeOrientation(Time.deltaTime);
+        ComputeDashCoolDown();
 
         if (!IsOnGround)
         {
             _rb.linearVelocity -= -Physics2D.gravity * Time.deltaTime;
         }
     }
-    
-    
+
+
     private void ComputeGroundInformations()
     {
-        RaycastHit2D isOnGround = Physics2D.Raycast(_rayOrigin.position, -_rayOrigin.up, _rayGroundDetectionLenght, _groundLayer);
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(_rayOrigin.position, -_rayOrigin.up, _colliderDetection, _groundLayer);
+        RaycastHit2D isOnGround =
+            Physics2D.Raycast(_rayOrigin.position, -_rayOrigin.up, _rayGroundDetectionLenght, _groundLayer);
+        RaycastHit2D raycastHit2D =
+            Physics2D.Raycast(_rayOrigin.position, -_rayOrigin.up, _colliderDetection, _groundLayer);
 
         _contactPoint = raycastHit2D.point;
         if (isOnGround.collider != IsOnGround)
@@ -81,12 +85,12 @@ public class SumoMovement : MonoBehaviour
         }
 
         _groundNormal = raycastHit2D.normal;
-    
     }
-    
+
     private void ComputeOrientation(float deltaTime)
     {
-        _targetRotation = Quaternion.AngleAxis(Vector2.Angle(Vector2.up, _groundNormal), Mathf.Sign(_groundNormal.x) * Vector3.back);
+        _targetRotation = Quaternion.AngleAxis(Vector2.Angle(Vector2.up, _groundNormal),
+            Mathf.Sign(_groundNormal.x) * Vector3.back);
         if (_gfx.rotation != _targetRotation)
         {
             _gfx.rotation = Quaternion.Slerp(_gfx.rotation, _targetRotation, deltaTime * 5);
@@ -102,34 +106,52 @@ public class SumoMovement : MonoBehaviour
 
     private void ComputeDash(Vector2 direction)
     {
-        if (_currentMovementState == MovementState.Dashing)
+        if (_currentMovementState == MovementState.Dashing || !CanUseDash)
             return;
-        
+
         if (_currentMovementState == MovementState.Idle)
         {
             _currentMovementState = MovementState.ChargingDash;
             _currentDashChargeDate = Time.time;
             Debug.Log($"Start Dash");
         }
+
         _currentDashDirection = direction.x;
     }
-    
-    private void Dash(Vector2 direction)
+
+    private void ComputeDashCoolDown()
     {
-        if(_currentDashChargeDate <= 0)
+        if(_currentDashCoolDown <= 0)
             return;
-        
-        ComputeOrientX(Mathf.Sign(_currentDashDirection));
-        _rb.linearVelocity = Direction * OrientX * 
-                             Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate(Time.time - _currentDashChargeDate / _dashMaxDurationCharge));
+
+        _currentDashCoolDown -= Time.deltaTime;
+        if (_currentDashCoolDown <= 0)
+        {
+            _currentMovementState = MovementState.Idle;
+        }
         
     }
 
+    private void Dash(Vector2 direction)
+    {
+        if (_currentDashChargeDate <= 0)
+            return;
 
-    
-    #if UNITY_EDITOR
-    [Header("Debug")]
-    [SerializeField] private bool _guiDebug;
+        ComputeOrientX(Mathf.Sign(_currentDashDirection));
+        _rb.linearVelocity = Direction * OrientX *
+                             Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y,
+                                 _dashVelocityCurve.Evaluate(
+                                     (Time.time - _currentDashChargeDate) / _dashMaxDurationCharge));
+
+        _currentMovementState = MovementState.Dashing;
+        _currentDashCoolDown = _dashCoolDown;
+        _currentDashChargeDate = -1;
+    }
+
+
+#if UNITY_EDITOR
+    [Header("Debug")] [SerializeField] private bool _guiDebug;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -139,19 +161,24 @@ public class SumoMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(_rayOrigin.position, _rayOrigin.position + Direction * _rayGroundDetectionLenght);
     }
-    
+
     private void OnGUI()
     {
-        if(!_guiDebug)
+        if (!_guiDebug)
             return;
-        
+
         GUILayout.Label($"Is on ground: {IsOnGround}");
         GUILayout.Label($"State: {_currentMovementState}");
         GUILayout.Label($"Charge state: {_currentMovementState}");
         GUILayout.Label($"Charge duration: {_dashMaxDurationCharge - _currentDashChargeDate}");
-        GUILayout.Label($"Charge Force: {Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate(Time.time - _currentDashChargeDate / _dashMaxDurationCharge))}");
+        GUILayout.Label($"Can dash: {CanUseDash}");
+
+        if (_currentMovementState == MovementState.ChargingDash)
+        {
+            GUILayout.Label(
+                $"Charge Force: {Mathf.Lerp(_minMaxDashVelocity.x, _minMaxDashVelocity.y, _dashVelocityCurve.Evaluate((Time.time - _currentDashChargeDate) / _dashMaxDurationCharge))}");
+        }
         GUILayout.Label($"Ground inclinaison: {GroundInclination}");
     }
-    #endif
-    
+#endif
 }
