@@ -2,18 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class SunDamage : MonoBehaviour
-
 {
-    private SumoHealth[] players;
+    
     private bool runningCoroutine = false;
-
-    void Start()
-    {
-        if (players == null)
-        {
-            players = (SumoHealth[])FindObjectsByType(typeof(SumoHealth), FindObjectsSortMode.InstanceID);
-        }
-    }
 
     void Update()
     {
@@ -24,21 +15,21 @@ public class SunDamage : MonoBehaviour
     {
         if (!runningCoroutine)
         {
-            foreach (SumoHealth i in players)
+            foreach (Player i in PlayerManager.Instance.PlayersList)
             {
-                if (i.CurrentSunscreen < 70)
+                if (i.Health.CurrentSunscreen < 70)
                 {
                     runningCoroutine = true;
-                    i.CurrentSunscreen -= 1;
+                    i.Health.CurrentSunscreen -= 1;
 
                     StartCoroutine(WaitDamageInstance(4));
                     runningCoroutine = false;
 
                 }
-                else if (i.CurrentSunscreen < 40)
+                else if (i.Health.CurrentSunscreen < 40)
                 {
                     runningCoroutine = true;
-                    i.CurrentSunscreen -= 1;
+                    i.Health.CurrentSunscreen -= 1;
 
                     StartCoroutine(WaitDamageInstance(3));
                     runningCoroutine = false;
@@ -47,7 +38,7 @@ public class SunDamage : MonoBehaviour
                 else
                 {
                     runningCoroutine = true;
-                    i.CurrentSunscreen -= 1;
+                    i.Health.CurrentSunscreen -= 1;
 
                     StartCoroutine(WaitDamageInstance(2));
                     runningCoroutine = false;
