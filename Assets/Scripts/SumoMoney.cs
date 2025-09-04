@@ -4,10 +4,19 @@ using UnityEngine;
 public class SumoMoney : MonoBehaviour
 {
     [Header("Money Values")]
-    [SerializeField] private int playerCurrentMoney;
     [SerializeField] private int moneyToAdd;
+    [SerializeField] private int playerCurrentMoney;
+    public int PlayerCurrentMoney
+    {
+        get { return playerCurrentMoney; }
+        set
+        {
+            playerCurrentMoney = value;
+        }
+    }
 
-    private float timeToWait = 5,;
+
+    private float timeToWait = 5;
 
     private void Start()
     {
