@@ -39,6 +39,9 @@ public class SumoHealth : MonoBehaviour
     void Start()
     {
         sumoHealthRef = GetComponent<SumoHealth>();
+
+        _currentSunscreen = _maxSunscreen;
+        _currentHealth = _maxHealth;
     }
 
     void Update()
