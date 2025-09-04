@@ -60,11 +60,8 @@ public class SumoMovement : MonoBehaviour
         ComputeGroundInformations();
         ComputeOrientation(Time.deltaTime);
         ComputeDashCoolDown();
-
-        if (!IsOnGround)
-        {
-            _rb.linearVelocity -= -Physics2D.gravity * Time.deltaTime;
-        }
+        ComputeGravity();
+  
     }
 
 
@@ -93,6 +90,16 @@ public class SumoMovement : MonoBehaviour
             _gfx.rotation = Quaternion.Slerp(_gfx.rotation, _targetRotation, deltaTime * 5);
             _rayOrigin.rotation = _targetRotation;
         }
+    }
+
+    private void ComputeGravity()
+    {
+        _rb.linearVelocity -= -Physics2D.gravity * (Time.deltaTime * _metricsData.GravityScale);
+    }
+
+    private void ComputeDashStateDuration()
+    {
+        
     }
 
     private void ComputeOrientX(float direction)
