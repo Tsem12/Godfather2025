@@ -68,6 +68,8 @@ public class SumoMovement : MonoBehaviour
         ComputeGroundInformations();
         ComputeOrientation();
         ComputeDashCoolDown();
+        ComputeGravity();
+  
         ComputeBumpCoolDown();
         ComputeJumpCoolDown();
         ComputeGravity();
