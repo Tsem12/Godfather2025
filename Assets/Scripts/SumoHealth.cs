@@ -48,7 +48,7 @@ public class SumoHealth : MonoBehaviour
 
     void Update()
     {
-        SunOuchy();
+
     }
 
     public void Die()
@@ -77,14 +77,6 @@ public class SumoHealth : MonoBehaviour
 
                 Debug.LogWarning(target.name + " is already dead.");
             }
-        }
-    }
-
-    public void SunOuchy()
-    {
-        if (this.sumoHealthRef._currentSunscreen < 0 && this._currentHealth != 0)
-        {
-            TakeDamage(this.gameObject, _currentSunscreen);
         }
     }
 }
