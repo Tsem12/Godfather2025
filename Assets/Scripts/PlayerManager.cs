@@ -1,17 +1,37 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-
-    [SerializeField] private GameObject _sumoPrefab;
+    public static PlayerManager Instance { get; private set; }
     
-    void Start()
+    [SerializeField] private GameObject _sumoPrefab;
+    [SerializeField] private PlayerInputManager _playerInputManager;
+    
+    private List<Player> _players = new();
+    public IReadOnlyCollection<Player> PlayersList => _players;
+
+    private void Awake()
     {
-        // PlayerInput prout = PlayerInput.Instantiate(_sumoPrefab,  pairWithDevice: Keyboard.current);
-        // PlayerInput prout2 = PlayerInput.Instantiate(_sumoPrefab, pairWithDevice: Keyboard.current);
-        //
-        // prout.SwitchCurrentActionMap("Player1");
-        // prout2.SwitchCurrentActionMap("Player2");
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        
+        _playerInputManager.onPlayerJoined += RegisterPlayer;
     }
+
+    private void OnDestroy()
+    {
+        _playerInputManager.onPlayerJoined -= RegisterPlayer;
+    }
+
+    private void RegisterPlayer(PlayerInput player)
+    {
+        _players.Add(player.GetComponent<Player>());
+    }
+    
+    
 }
