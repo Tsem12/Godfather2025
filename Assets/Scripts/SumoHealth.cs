@@ -1,56 +1,56 @@
-using System.Runtime.InteropServices.WindowsRuntime;
+using System;
 using UnityEngine;
 
 public class SumoHealth : MonoBehaviour
 {
     [Header("Health Settings")]
-    [SerializeField] private int _maxHealth;
-    [SerializeField] private int _currentHealth;
+    [field: SerializeField] public int MaxHealth { get; private set; }
+    private float _currentHealth;
 
     [Header("Sunscreen Settings")]
-    [SerializeField] private int _maxSunscreen;
-    [SerializeField] private int _currentSunscreen;
+    [field: SerializeField] public int MaxSunscreen { get; private set; }
+    private float _currentSunscreen;
 
     private SumoHealth sumoHealthRef;
 
-    public int CurrentHealth
+    public float CurrentSunscreen
+    {
+        get => _currentSunscreen;
+        set
+        {
+            _currentSunscreen = value;
+            OnSunScreenValueChange?.Invoke(value);
+        }
+    }
+    public float CurrentHealth
     {
         get { return _currentHealth; }
         set
         {
-            _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
-
+            
+            _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+            OnHealthValueChange?.Invoke(_currentHealth);
             if (_currentHealth <= 0)
             {
                 Die();
             }
         }
     }
+    
+    public event Action<float> OnSunScreenValueChange; 
+    public event Action<float> OnHealthValueChange; 
+
 
     // O I I A I O I I A I O I I A I *spinning cat*
-
-    public int CurrentSunscreen
-    {
-        get { return _currentSunscreen; }
-        set
-        {
-            _currentSunscreen = value;
-        }
-    }
 
     void Start()
     {
         sumoHealthRef = GetComponent<SumoHealth>();
 
-        _currentSunscreen = _maxSunscreen;
-        _currentHealth = _maxHealth;
+        _currentSunscreen = MaxSunscreen;
+        _currentHealth = MaxHealth;
     }
-
-    void Update()
-    {
-
-    }
-
+    
     public void Die()
     {
         Debug.Log($"Player :  {this.gameObject}  has died");
@@ -58,7 +58,7 @@ public class SumoHealth : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void TakeDamage(GameObject target, int currentSunscreenVal)
+    public void TakeDamage(GameObject target, float currentSunscreenVal)
     {
         SumoHealth targetHealth = target.GetComponent<SumoHealth>();
 
