@@ -69,10 +69,8 @@ public class SumoMovement : MonoBehaviour
         ComputeOrientation();
         ComputeDashCoolDown();
         ComputeGravity();
-  
         ComputeBumpCoolDown();
         ComputeJumpCoolDown();
-        ComputeGravity();
     }
 
 
@@ -113,12 +111,12 @@ public class SumoMovement : MonoBehaviour
     
     private void ComputeGravity()
     {
-        _rb.linearVelocity -= -Physics2D.gravity * Time.deltaTime;
+        _rb.linearVelocity -= -Physics2D.gravity * Time.deltaTime * 2;
     }
 
     private void ComputeDash(Vector2 direction)
     {
-        if (_currentMovementState == MovementState.Dashing || !CanUseDash || IsBumped)
+        if (_currentMovementState == MovementState.Dashing || !CanUseDash || IsBumped || !IsOnGround)
             return;
 
         if (_currentMovementState == MovementState.Idle)
@@ -128,7 +126,6 @@ public class SumoMovement : MonoBehaviour
             Debug.Log($"Start Dash");
         }
 
-        Debug.Log(direction);
         if (Mathf.Abs(direction.x) > 0.9f)
         {
             _currentDashDirection = direction.x;
