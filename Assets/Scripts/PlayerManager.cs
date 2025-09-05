@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Animations;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform[] _playerSpawn;
     [SerializeField] private CanvasGroup _mainMenuCanva;
     [SerializeField] private CanvasGroup endMenuCanva;
-    [SerializeField] private AnimatorController[] _animatorControllers;
+    [SerializeField] private RuntimeAnimatorController[] _animatorControllers;
     
     private List<Player> _players = new();
     public IReadOnlyCollection<Player> PlayersList => _players;
