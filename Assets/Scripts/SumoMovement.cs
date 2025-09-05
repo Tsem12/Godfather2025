@@ -174,7 +174,7 @@ public class SumoMovement : MonoBehaviour
 
     private void Dash(Vector2 direction)
     {
-        if (_currentDashChargeDate <= 0)
+        if (_currentDashChargeDate <= 0 || !IsOnGround)
             return;
 
         ComputeOrientX(Mathf.Sign(_currentDashDirection));
