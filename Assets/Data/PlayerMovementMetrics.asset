@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DashMaxDurationCharge>k__BackingField: 0.2
   <DashCoolDown>k__BackingField: 0.01
-  <MinMaxDashVelocity>k__BackingField: {x: 0, y: 30}
+  <MinMaxDashVelocity>k__BackingField: {x: 0, y: 38}
   <DashVelocityCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
@@ -40,5 +40,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   <BumpCooldown>k__BackingField: 0.5
-  <JumpForce>k__BackingField: 13
+  <JumpForce>k__BackingField: 16
   <JumpCoolDown>k__BackingField: 0.3
