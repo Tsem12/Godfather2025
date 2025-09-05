@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 791acacc791d159458040013c1263f63, type: 2}
+  m_Motion: {fileID: 7400000, guid: c979e77288b6d0b4abe645e2d48a93b4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -186,7 +186,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c7678138ef0784a4987ce6aa1567a7d2, type: 2}
+  m_Motion: {fileID: 7400000, guid: 95ea456fe53ea624db0a9de6a8384654, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -238,7 +238,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1c5fd8e4513a73b46bf7885ba28af1d8, type: 2}
+  m_Motion: {fileID: 7400000, guid: 09561d7f0e869ba4ebc7fa7f2caddf56, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -250,7 +250,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: P1_Slide_1
+  m_Name: P2_Slide
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: YVelocity
@@ -335,7 +335,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0d6c48f37909aed40b7c124488abd82a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 52a9af959b25511439e88a0c6892c3db, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -362,7 +362,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 89812bf38191a7b45b309ebd76fbaed4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 7e7d31a7a057d064a9e4a53b2a98ae25, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerMovementMetrics
   m_EditorClassIdentifier: 
   <DashMaxDurationCharge>k__BackingField: 0.2
-  <DashCoolDown>k__BackingField: 0.01
+  <DashCoolDown>k__BackingField: 0.5
   <MinMaxDashVelocity>k__BackingField: {x: 0, y: 38}
   <DashVelocityCurve>k__BackingField:
     serializedVersion: 2

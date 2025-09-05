@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform[] _playerSpawn;
     [SerializeField] private CanvasGroup _mainMenuCanva;
     [SerializeField] private CanvasGroup endMenuCanva;
+    [SerializeField] private AnimatorController[] _animatorControllers;
     
     private List<Player> _players = new();
     public IReadOnlyCollection<Player> PlayersList => _players;
@@ -41,6 +43,7 @@ public class PlayerManager : MonoBehaviour
         _players.Add(player.GetComponent<Player>());
         _playersUI[_players.Count - 1].Init(_players[^1]);
         _players[^1].transform.position = _playerSpawn[_players.Count - 1].position;
+        _players[^1].Movement.Animator1.runtimeAnimatorController = _animatorControllers[_players.Count - 1];
 
         if (_players.Count >= 2)
         {

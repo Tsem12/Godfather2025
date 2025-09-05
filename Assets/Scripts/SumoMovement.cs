@@ -48,6 +48,8 @@ public class SumoMovement : MonoBehaviour
     public float GroundInclination =>
         (int)Vector2.Angle(Quaternion.AngleAxis(-90, Vector3.forward) * _groundNormal, Vector2.right);
 
+    public Animator Animator1 => _animator;
+
     private void Awake()
     {
         _inputHandler.OnMovementInputOccured += ComputeDash;
@@ -73,8 +75,8 @@ public class SumoMovement : MonoBehaviour
         ComputeBumpCoolDown();
         ComputeJumpCoolDown();
         
-        _animator.SetFloat("Velocity", CurrentVelocityMagnitude);
-        _animator.SetFloat("YVelocity", _rb.linearVelocityY);
+        Animator1.SetFloat("Velocity", CurrentVelocityMagnitude);
+        Animator1.SetFloat("YVelocity", _rb.linearVelocityY);
     }
 
 
@@ -127,7 +129,7 @@ public class SumoMovement : MonoBehaviour
         {
             _currentMovementState = MovementState.ChargingDash;
             _currentDashChargeDate = Time.time;
-            _animator.SetTrigger("ChargeDash");
+            Animator1.SetTrigger("ChargeDash");
             Debug.Log($"Start Dash");
         }
 
@@ -146,7 +148,7 @@ public class SumoMovement : MonoBehaviour
         if (_currentDashCoolDown <= 0)
         {
             _currentMovementState = MovementState.Idle;
-            _animator.SetTrigger("Slide");
+            Animator1.SetTrigger("Slide");
         }
         
     }
@@ -176,7 +178,7 @@ public class SumoMovement : MonoBehaviour
         _currentBumpCoolDown = _metricsData.BumpCooldown;
         EffetLauncher.Instance.TriggerBumpFeedback();
         Debug.Log("Bump");
-        _animator.SetTrigger("Death");
+        Animator1.SetTrigger("Death");
     }
 
     private void Dash(Vector2 direction)
@@ -193,7 +195,7 @@ public class SumoMovement : MonoBehaviour
         _currentMovementState = MovementState.Dashing;
         _currentDashCoolDown = _metricsData.DashCoolDown;
         _currentDashChargeDate = -1;
-        _animator.SetTrigger("Dash");
+        Animator1.SetTrigger("Dash");
     }
 
     private void Jump()
