@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private PlayerUI[] _playersUI;
     [SerializeField] private Transform[] _playerSpawn;
+    [SerializeField] private CanvasGroup _mainMenuCanva;
+    [SerializeField] private CanvasGroup endMenuCanva;
     
     private List<Player> _players = new();
     public IReadOnlyCollection<Player> PlayersList => _players;
