@@ -1,16 +1,49 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VendingMachine : MonoBehaviour
 {
 
-    private SumoMoney moneyRef;
+    [SerializeField] private float _creamCapacityMax;
+    [SerializeField] private float _creamUnityPerSecond;
+    [SerializeField] private Slider _slider;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private float _currentCapacity;
+
+    public float CurrentCapacity
     {
-        //animation call for sun cream
+        get => _currentCapacity;
+        set
+        {
+            _currentCapacity = value;
+            _slider.value = value;
+        }
+    }
 
-        moneyRef = collision.gameObject.GetComponent<SumoMoney>();
+    private void Awake()
+    {
+        _slider.maxValue = _creamCapacityMax;
+        _slider.value = 0;
+    }
 
-        moneyRef.PlayerCurrentMoney -= 30;
+    private void Update()
+    {
+        CurrentCapacity = Mathf.Clamp(CurrentCapacity + Time.deltaTime * _creamUnityPerSecond, 0, _creamCapacityMax);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Player p = other.GetComponentInParent<Player>();
+            float creamNeeded = p.Health.MaxSunscreen - p.Health.CurrentSunscreen;
+
+            float availaleCream = Mathf.Clamp(creamNeeded, 0, CurrentCapacity);
+
+            p.Health.CurrentSunscreen += availaleCream;
+            CurrentCapacity -= availaleCream;
+            _slider.value = CurrentCapacity - availaleCream;
+        }
     }
 }
