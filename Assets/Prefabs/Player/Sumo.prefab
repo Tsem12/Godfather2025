@@ -257,8 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fee429168c8c3c478c6a26c1a2380b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 100
-  <MaxSunscreen>k__BackingField: 100
+  <MaxHealth>k__BackingField: 50
+  <MaxSunscreen>k__BackingField: 75
 --- !u!114 &9194066205004748061
 MonoBehaviour:
   m_ObjectHideFlags: 0
