@@ -12,33 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042e788d2d951ba4395535d2089ae5f1, type: 3}
   m_Name: PlayerMovementMetrics
   m_EditorClassIdentifier: 
-  <DashMaxDurationCharge>k__BackingField: 0.5
+  <DashMaxDurationCharge>k__BackingField: 0.4
   <DashCoolDown>k__BackingField: 0.5
-  <MinMaxDashVelocity>k__BackingField: {x: 0, y: 40}
+  <MinMaxDashVelocity>k__BackingField: {x: 0, y: 45}
   <DashVelocityCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: -0.02354818
+      outSlope: -0.02354818
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.51465386
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 1.3946512
+      outSlope: 1.3946512
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.15234429
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   <BumpCooldown>k__BackingField: 0.5
   <JumpForce>k__BackingField: 20
-  <JumpCoolDown>k__BackingField: 1
+  <JumpCoolDown>k__BackingField: 0.5
