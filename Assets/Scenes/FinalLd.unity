@@ -1687,6 +1687,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachin
       objectReference: {fileID: 0}
+    - target: {fileID: 8065229458614974314, guid: 4742c3328e3172640b072307d5061fbb, type: 3}
+      propertyPath: _creamUnityPerSecond
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
