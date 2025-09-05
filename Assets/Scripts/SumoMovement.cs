@@ -168,12 +168,13 @@ public class SumoMovement : MonoBehaviour
         
         _rb.linearVelocity = Vector2.zero;
         _currentBumpCoolDown = _metricsData.BumpCooldown;
+        EffetLauncher.Instance.TriggerBumpFeedback();
         Debug.Log("Bump");
     }
 
     private void Dash(Vector2 direction)
     {
-        if (_currentDashChargeDate <= 0)
+        if (_currentDashChargeDate <= 0 || !IsOnGround)
             return;
 
         ComputeOrientX(Mathf.Sign(_currentDashDirection));
