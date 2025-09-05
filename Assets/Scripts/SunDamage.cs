@@ -1,56 +1,49 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using System.Security.Cryptography;
 
 public class SunDamage : MonoBehaviour
 {
-    
+    [SerializeField] private float _lifeLooseMultiplier;
+    [SerializeField] private AnimationCurve _curveMultiplier;
     private bool runningCoroutine = false;
+
+    private bool _hasGameStarted;
+
+    private void Start()
+    {
+        PlayerManager.Instance.OnGameStart += RetreiveGameStart;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerManager.Instance.OnGameStart -= RetreiveGameStart;
+    }
+
+    private void RetreiveGameStart() => _hasGameStarted = true;
 
     void Update()
     {
-        ReduceSunscreen();
-    }
-
-    private void ReduceSunscreen()
-    {
-        if (!runningCoroutine)
+        if(!_hasGameStarted)
+            return;
+        
+        foreach (Player i in PlayerManager.Instance.PlayersList)
         {
-            foreach (Player i in PlayerManager.Instance.PlayersList)
+            i.Health.CurrentSunscreen -=
+                Time.deltaTime * _curveMultiplier.Evaluate(i.Health.CurrentSunscreen / i.Health.MaxSunscreen);
+
+            i.Health.CurrentSunscreen = Mathf.Max(0, i.Health.CurrentSunscreen);
+            
+            if (i.Health.CurrentSunscreen <= 0)
             {
-                if (i.Health.CurrentSunscreen < 70)
+                i.Health.CurrentHealth -= Time.deltaTime * _lifeLooseMultiplier;
+                if (i.Health.CurrentHealth <= 0)
                 {
-                    runningCoroutine = true;
-                    i.Health.CurrentSunscreen -= 1;
-
-                    StartCoroutine(WaitDamageInstance(4));
-                    runningCoroutine = false;
-
-                }
-                else if (i.Health.CurrentSunscreen < 40)
-                {
-                    runningCoroutine = true;
-                    i.Health.CurrentSunscreen -= 1;
-
-                    StartCoroutine(WaitDamageInstance(3));
-                    runningCoroutine = false;
-
-                }
-                else
-                {
-                    runningCoroutine = true;
-                    i.Health.CurrentSunscreen -= 1;
-
-                    StartCoroutine(WaitDamageInstance(2));
-                    runningCoroutine = false;
+                    Debug.Log($"{i.gameObject} loose");
                 }
             }
         }
     }
-
-    IEnumerator WaitDamageInstance(float timeToWait)
-    {
-        Debug.Log("Waiting for " + timeToWait + " seconds.");
-
-        yield return new WaitForSeconds(timeToWait);
-    }
+    
 }
