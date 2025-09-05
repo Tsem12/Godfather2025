@@ -10,6 +10,7 @@ public class SumoMovement : MonoBehaviour
         Idle
     }
 
+    [SerializeField] private Animator _animator;
     [SerializeField] private InputHandeler _inputHandler;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Transform _gfx;
@@ -71,6 +72,9 @@ public class SumoMovement : MonoBehaviour
         ComputeGravity();
         ComputeBumpCoolDown();
         ComputeJumpCoolDown();
+        
+        _animator.SetFloat("Velocity", CurrentVelocityMagnitude);
+        _animator.SetFloat("YVelocity", _rb.linearVelocityY);
     }
 
 
@@ -123,6 +127,7 @@ public class SumoMovement : MonoBehaviour
         {
             _currentMovementState = MovementState.ChargingDash;
             _currentDashChargeDate = Time.time;
+            _animator.SetFloat("ChargeDash", _rb.linearVelocityY);
             Debug.Log($"Start Dash");
         }
 
@@ -170,6 +175,7 @@ public class SumoMovement : MonoBehaviour
         _currentBumpCoolDown = _metricsData.BumpCooldown;
         EffetLauncher.Instance.TriggerBumpFeedback();
         Debug.Log("Bump");
+        _animator.SetTrigger("Death");
     }
 
     private void Dash(Vector2 direction)
@@ -186,6 +192,7 @@ public class SumoMovement : MonoBehaviour
         _currentMovementState = MovementState.Dashing;
         _currentDashCoolDown = _metricsData.DashCoolDown;
         _currentDashChargeDate = -1;
+        _animator.SetTrigger("Dash");
     }
 
     private void Jump()
