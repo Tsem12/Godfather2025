@@ -168,6 +168,7 @@ public class SumoMovement : MonoBehaviour
         
         _rb.linearVelocity = Vector2.zero;
         _currentBumpCoolDown = _metricsData.BumpCooldown;
+        EffetLauncher.Instance.TriggerBumpFeedback();
         Debug.Log("Bump");
     }
 

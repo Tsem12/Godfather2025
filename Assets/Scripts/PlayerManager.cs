@@ -7,12 +7,16 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
     
-    [SerializeField] private GameObject _sumoPrefab;
+
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private PlayerUI[] _playersUI;
+    [SerializeField] private Transform[] _playerSpawn;
     
     private List<Player> _players = new();
     public IReadOnlyCollection<Player> PlayersList => _players;
+
+    public event Action OnGameStart;
+    public event Action OnGameEnd;
 
     private void Awake()
     {
@@ -32,9 +36,19 @@ public class PlayerManager : MonoBehaviour
 
     private void RegisterPlayer(PlayerInput player)
     {
-        Debug.Log("qdqzdsqd");
         _players.Add(player.GetComponent<Player>());
-        _playersUI[^1].Init(_players[^1]);
+        _playersUI[_players.Count - 1].Init(_players[^1]);
+        _players[^1].transform.position = _playerSpawn[_players.Count - 1].position;
+
+        if (_players.Count >= 2)
+        {
+            StartGame();
+        }
+    }
+
+    private void StartGame()
+    {
+        OnGameStart?.Invoke();
     }
     
     

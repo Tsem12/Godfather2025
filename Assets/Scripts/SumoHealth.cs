@@ -43,19 +43,17 @@ public class SumoHealth : MonoBehaviour
 
     // O I I A I O I I A I O I I A I *spinning cat*
 
-    void Start()
+    void Awake()
     {
         sumoHealthRef = GetComponent<SumoHealth>();
 
-        _currentSunscreen = MaxSunscreen;
-        _currentHealth = MaxHealth;
+        CurrentSunscreen = MaxSunscreen;
+        CurrentHealth = MaxHealth;
     }
     
     public void Die()
     {
         Debug.Log($"Player :  {this.gameObject}  has died");
-
-        Destroy(this.gameObject);
     }
 
     public void TakeDamage(GameObject target, float currentSunscreenVal)
