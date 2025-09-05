@@ -127,7 +127,7 @@ public class SumoMovement : MonoBehaviour
         {
             _currentMovementState = MovementState.ChargingDash;
             _currentDashChargeDate = Time.time;
-            _animator.SetFloat("ChargeDash", _rb.linearVelocityY);
+            _animator.SetTrigger("ChargeDash");
             Debug.Log($"Start Dash");
         }
 
@@ -146,6 +146,7 @@ public class SumoMovement : MonoBehaviour
         if (_currentDashCoolDown <= 0)
         {
             _currentMovementState = MovementState.Idle;
+            _animator.SetTrigger("Slide");
         }
         
     }
